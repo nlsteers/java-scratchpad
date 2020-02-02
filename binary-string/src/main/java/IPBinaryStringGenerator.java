@@ -22,4 +22,9 @@ public class IPBinaryStringGenerator {
         return InetAddress.getByName(input).getAddress();
     }
 
+    public String cidrToBinarySubnetMask(String input){
+        int prefix = Integer.parseInt(input);
+        return Integer.toBinaryString(0xffffffff << (32 - prefix));
+    }
+
 }

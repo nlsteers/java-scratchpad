@@ -63,6 +63,11 @@ public class IPBinaryStringGeneratorTests {
         assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4WithCIDR),"10011100110001010011001000000000 11000");
     }
 
+    @Test
+    public void shouldCreateBinarySubnetMask() {
+        System.out.println(ipBinaryStringGenerator.cidrToBinarySubnetMask("24"));
+    }
+
 
 
 
