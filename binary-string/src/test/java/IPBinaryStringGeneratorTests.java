@@ -35,9 +35,9 @@ public class IPBinaryStringGeneratorTests {
     @Test
     public void shouldHandleDifferentAddressTypes() throws UnknownHostException {
         //IPV6
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv6),ipv6BinaryVal);
+        assertEquals(ipv6BinaryVal, ipBinaryStringGenerator.ipAddressToBinary(ipv6));
         //IPv4
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4),"11000000000000000000001000000001");
+        assertEquals("11000000000000000000001000000001", ipBinaryStringGenerator.ipAddressToBinary(ipv4));
     }
 
     @Test
@@ -48,24 +48,31 @@ public class IPBinaryStringGeneratorTests {
 
     @Test
     public void shouldHandleIPV6NoLeadingZeroes() throws UnknownHostException {
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv6NoLeadingZeroes), "100000000000010000000000000001000000000000001000000000000000110000000000000100000000000000010100000000000001100000000000000111");
+        assertEquals("100000000000010000000000000001000000000000001000000000000000110000000000000100000000000000010100000000000001100000000000000111", ipBinaryStringGenerator.ipAddressToBinary(ipv6NoLeadingZeroes));
         assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv6NoLeadingZeroes), ipBinaryStringGenerator.ipAddressToBinary(ipv6WithLeadingZeroes));
     }
 
     @Test
     public void shouldHandleIPV4NoLeadingZeroes() throws UnknownHostException {
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4LeadingZeroes), "11000000000000000000001000000001");
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4), ipBinaryStringGenerator.ipAddressToBinary(ipv4LeadingZeroes));
+        assertEquals("11000000000000000000001000000001", ipBinaryStringGenerator.ipAddressToBinary(ipv4LeadingZeroes));
+        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4LeadingZeroes), ipBinaryStringGenerator.ipAddressToBinary(ipv4));
     }
 
     @Test
     public void shouldHandleIPV4WithCidr() throws  UnknownHostException {
-        assertEquals(ipBinaryStringGenerator.ipAddressToBinary(ipv4WithCIDR),"10011100110001010011001000000000 11000");
+        assertEquals("10011100110001010011001000000000 11111111111111111111111100000000", ipBinaryStringGenerator.ipAddressToBinary(ipv4WithCIDR));
     }
 
     @Test
     public void shouldCreateBinarySubnetMask() {
         System.out.println(ipBinaryStringGenerator.cidrToBinarySubnetMask("24"));
+    }
+
+    @Test
+    public void binaryBitwiseOperation() {
+        System.out.println("host: 10011100110001010011001000000000");
+        System.out.println("mask: 11111111111111111111111100000000");
+        System.out.println(String.format("net : %s", ipBinaryStringGenerator.convertHostAndMaskToNetAddress("10011100110001010011001000000000", "11111111111111111111111100000000")));
     }
 
 

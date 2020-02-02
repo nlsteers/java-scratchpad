@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 
 public class IPBinaryStringGenerator {
 
@@ -8,7 +9,7 @@ public class IPBinaryStringGenerator {
 
         if (input.contains("/")){
             String[] parts = input.split("/");
-            return String.format("%s %s", new BigInteger(1, ipAddressToByteArray(parts[0])).toString(2), Integer.toBinaryString(Integer.parseInt(parts[1])));
+            return String.format("%s %s", new BigInteger(1, ipAddressToByteArray(parts[0])).toString(2), cidrToBinarySubnetMask(parts[1]));
         } else {
             try {
                 return new BigInteger(1, ipAddressToByteArray(input)).toString(2);
@@ -27,4 +28,15 @@ public class IPBinaryStringGenerator {
         return Integer.toBinaryString(0xffffffff << (32 - prefix));
     }
 
+    public String convertHostAndMaskToNetAddress(String h, String m) {
+        byte[] host = new BigInteger(h, 2).toByteArray();
+        byte[] mask = new BigInteger(m, 2).toByteArray();
+        byte[] address = new byte[host.length];
+        int i = 0;
+        for (byte hostByte : host) {
+            address[i] = (byte) (hostByte & mask[i]);
+            i++;
+        }
+        return new BigInteger(1, address).toString(2);
+    }
 }
